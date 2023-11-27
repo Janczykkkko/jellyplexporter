@@ -46,6 +46,8 @@ func getSessions() (int, error) {
 	}
 	defer resp.Body.Close()
 
+	log.Printf("API request to %s completed with status code: %d", jellyfinAddress, resp.StatusCode)
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return 0, err
