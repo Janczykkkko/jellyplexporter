@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/PaesslerAG/jsonpath"
@@ -25,6 +26,10 @@ func init() {
 	// Register the metric with Prometheus
 	prometheus.MustRegister(activeSessions)
 }
+
+var (
+	pollingInterval = 30 * time.Second // Default polling interval
+)
 
 var (
 	jellyfinAddress string
@@ -70,6 +75,14 @@ func main() {
 
 	jellyfinAddress = os.Getenv("JELLYFIN_ADDRESS")
 	apiKey = os.Getenv("API_KEY")
+	pollingIntervalStr := os.Getenv("POLLING_INTERVAL")
+	if pollingIntervalStr != "" {
+		interval, err := strconv.Atoi(pollingIntervalStr)
+		if err != nil {
+			log.Fatalf("Invalid value for POLLING_INTERVAL: %s", err)
+		}
+		pollingInterval = time.Duration(interval) * time.Second
+	}
 
 	if jellyfinAddress == "" || apiKey == "" {
 		log.Fatal("Please provide Jellyfin address and API key")
@@ -102,6 +115,6 @@ func main() {
 		}
 
 		// Sleep for 30 seconds before the next iteration
-		time.Sleep(30 * time.Second)
+		time.Sleep(pollingInterval)
 	}
 }
