@@ -7,12 +7,11 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync"
 	"time"
 
 	"github.com/PaesslerAG/jsonpath"
+	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -76,30 +75,33 @@ func main() {
 		log.Fatal("Please provide Jellyfin address and API key")
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(1)
+	r := gin.Default()
 
-	go func() {
-		// Register the /metrics endpoint with Prometheus handler
-		http.Handle("/metrics", promhttp.Handler())
-		log.Fatal(http.ListenAndServe(":8080", nil))
-	}()
-
-	go func() {
-		for {
-			// Fetch session count
-			count, err := getSessions()
-			if err != nil {
-				log.Printf("Error getting sessions count: %s", err)
-			} else {
-				// Update Prometheus metric with the new session count
-				activeSessions.Set(float64(count))
-			}
-
-			// Sleep for 30 seconds before the next iteration
-			time.Sleep(30 * time.Second)
+	r.GET("/metrics", func(c *gin.Context) {
+		count, err := getSessions()
+		if err != nil {
+			c.String(http.StatusInternalServerError, "Error getting sessions count")
+			return
 		}
+		activeSessions.Set(float64(count))
+		c.String(http.StatusOK, "jellyfin_active_sessions_count %d", count)
+	})
+
+	go func() {
+		log.Fatal(r.Run(":8080"))
 	}()
 
-	wg.Wait()
+	for {
+		// Fetch session count
+		count, err := getSessions()
+		if err != nil {
+			log.Printf("Error getting sessions count: %s", err)
+		} else {
+			// Update Prometheus metric with the new session count
+			activeSessions.Set(float64(count))
+		}
+
+		// Sleep for 30 seconds before the next iteration
+		time.Sleep(30 * time.Second)
+	}
 }
