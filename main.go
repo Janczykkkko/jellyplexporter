@@ -22,11 +22,6 @@ var (
 	})
 )
 
-func init() {
-	// Register the metric with Prometheus
-	prometheus.MustRegister(activeSessions)
-}
-
 var (
 	pollingInterval = 30 * time.Second // Default polling interval
 )
