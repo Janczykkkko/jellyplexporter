@@ -67,7 +67,7 @@ func GetSessions() {
 			var substream string = ""
 			var playMethod string
 			var deviceName string
-			name = obj.FullNowPlayingItem.Name
+			name = obj.NowPlayingItem.Name
 			playMethod = obj.PlayState.PlayMethod
 			userName = obj.UserName
 			deviceName = obj.DeviceName
