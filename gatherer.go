@@ -6,70 +6,85 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
+	"strconv"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 // GetSessions fetches sessions from Jellyfin
-func GetSessions() string {
+func GetSessions() {
 	var (
-		JellyJSON         []JellySession
-		genericInfo       string
-		sessionStrings    []string
-		formattedSessions string
+		JellyJSON []JellySession
+		count     int
 	)
-	genericInfo = "Here's an activity report from Jellyfin: \n\n"
 	url := jellyfinAddress + "/Sessions?api_key=" + jellyfinApiKey
 	resp, err := http.Get(url)
 	if err != nil {
-		formattedSessions = "Error fetching sessions: " + err.Error()
+		fmt.Println("Error fetching sessions: " + err.Error())
 	}
 	defer resp.Body.Close()
 	log.Printf("API request to %s completed with status code: %d", jellyfinAddress, resp.StatusCode)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		formattedSessions = "Error fetching sessions: " + err.Error()
+		fmt.Println("Error fetching sessions: " + err.Error())
 	}
 	err = json.Unmarshal(body, &JellyJSON)
 	if err != nil {
-		formattedSessions = "Error fetching sessions: " + err.Error()
+		fmt.Println("Error fetching sessions: " + err.Error())
 	}
+	count = 0
 	for _, obj := range JellyJSON {
-		var sessionString string
 		if len(obj.NowPlayingQueueFullItems) > 0 &&
 			obj.PlayState.PlayMethod != "" {
+			var userName string
+			var name string
 			var state string
-			var bitrate float64
+			var bitrate string
 			var substream string
+			var playMethod string
+			var deviceName string
 			if obj.PlayState.IsPaused {
 				state = "paused"
 			} else {
 				state = "in progress"
 			}
 			if err == nil {
-				bitrate = float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
+				bitrateFloat := float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
+				bitrate = strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
 			} else {
-				bitrate = 0.0
+				bitrate = "error"
 			}
-			name := obj.NowPlayingQueueFullItems[0].MediaSources[0].Name
-
+			name = obj.NowPlayingQueueFullItems[0].MediaSources[0].Name
+			userName = obj.UserName
+			playMethod = obj.PlayState.PlayMethod
+			deviceName = obj.DeviceName
 			SubtitleStreamIndex := obj.PlayState.SubtitleStreamIndex
 			if SubtitleStreamIndex >= 0 && SubtitleStreamIndex < len(obj.NowPlayingQueueFullItems[0].MediaStreams) {
 				substream = obj.NowPlayingQueueFullItems[0].MediaStreams[obj.PlayState.SubtitleStreamIndex].DisplayTitle
 			} else {
 				substream = "None"
 			}
-
-			sessionString = fmt.Sprintf("%s is playing (%s): %s\nPlayback: %s\nBitrate: %.2f Mbps\nSubtitles: %s\nDevice: %s\n", obj.UserName, state, name, obj.PlayState.PlayMethod, bitrate, substream, obj.DeviceName)
-
+			count++
+			updateSessionMetrics(userName, state, name, playMethod, substream, deviceName, bitrate, count)
 		} else {
 			continue
 		}
-		sessionStrings = append(sessionStrings, sessionString)
+
 	}
-	if len(strings.Join(sessionStrings, "\n")) != 0 {
-		formattedSessions = genericInfo + strings.Join(sessionStrings, "\n")
-	} else {
-		formattedSessions = "Nothing is playing"
+
+}
+
+func updateSessionMetrics(username, state, name, playMethod, substream, deviceName string, bitrate string, count int) {
+	sessionLabels := prometheus.Labels{
+		"UserName":   username,
+		"State":      state,
+		"Name":       name,
+		"Bitrate":    bitrate,
+		"PlayMethod": playMethod,
+		"Substream":  substream,
+		"DeviceName": deviceName,
 	}
-	return formattedSessions
+
+	// Set labels and update the gauge for the specific session
+	sessionsMetric.With(sessionLabels).Set(float64(count))
 }

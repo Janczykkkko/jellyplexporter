@@ -18,24 +18,17 @@ var (
 			Name: "jellyfin_session_info",
 			Help: "Information about Jellyfin sessions",
 		},
-		[]string{"UserName", "State", "Name", "PlayMethod", "Substream", "DeviceName"},
-	)
-	playingSessions = prometheus.NewGauge(
-		prometheus.GaugeOpts{
-			Name: "jellyfin_playing_sessions_count",
-			Help: "Number of sessions currently playing in Jellyfin",
-		},
+		[]string{"UserName", "State", "Name", "Bitrate", "PlayMethod", "Substream", "DeviceName"},
 	)
 )
 
 func init() {
 	prometheus.MustRegister(sessionsMetric)
-	prometheus.MustRegister(playingSessions)
 }
 
 func main() {
 	jellyfinAddress = os.Getenv("JELLYFIN_ADDRESS")
-	jellyfinApiKey = os.Getenv("API_KEY")
+	jellyfinApiKey = os.Getenv("JELLYFIN_APIKEY")
 
 	if jellyfinAddress == "" || jellyfinApiKey == "" {
 		log.Fatal("Please provide Jellyfin address and API key")
