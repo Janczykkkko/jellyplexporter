@@ -43,7 +43,7 @@ func main() {
 	interval := 30 * time.Second
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
-
+	GetSessions()
 	for {
 		select {
 		case <-ticker.C:
