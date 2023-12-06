@@ -22,10 +22,6 @@ var (
 	)
 )
 
-func init() {
-	prometheus.MustRegister(sessionsMetric)
-}
-
 func main() {
 	jellyfinAddress = os.Getenv("JELLYFIN_ADDRESS")
 	jellyfinApiKey = os.Getenv("JELLYFIN_APIKEY")
