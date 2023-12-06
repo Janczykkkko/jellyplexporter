@@ -44,12 +44,8 @@ func GetSessions() {
 			var substream string
 			var playMethod string
 			var deviceName string
-			if err == nil {
-				bitrateFloat := float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
-				bitrate = strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
-			} else {
-				bitrate = "error"
-			}
+			bitrateFloat := float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
+			bitrate = strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
 			name = obj.NowPlayingQueueFullItems[0].MediaSources[0].Name
 			userName = obj.UserName
 			playMethod = obj.PlayState.PlayMethod
@@ -62,10 +58,24 @@ func GetSessions() {
 			}
 			count = 1
 			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
+		} else if len(obj.FullNowPlayingItem.Container) > 0 && //mobile not showing fix
+			obj.PlayState.PlayMethod != "" &&
+			!obj.PlayState.IsPaused {
+			var userName string
+			var name string
+			var bitrate string = ""
+			var substream string = ""
+			var playMethod string
+			var deviceName string
+			name = obj.FullNowPlayingItem.Name
+			playMethod = obj.PlayState.PlayMethod
+			userName = obj.UserName
+			deviceName = obj.DeviceName
+			count = 1
+			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
 		} else {
 			continue
 		}
-
 	}
 	if count == 0 {
 		// No sessions found, reset metric to zero

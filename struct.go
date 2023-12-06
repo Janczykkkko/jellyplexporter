@@ -30,6 +30,7 @@ type JellySession struct {
 		Height        int       `json:"Height"`
 		ExtraIds      []any     `json:"ExtraIds"`
 		DateLastSaved time.Time `json:"DateLastSaved"`
+		Name          string    `json:"Name"`
 	} `json:"FullNowPlayingItem"`
 	DeviceID              string `json:"DeviceId"`
 	ApplicationVersion    string `json:"ApplicationVersion"`
