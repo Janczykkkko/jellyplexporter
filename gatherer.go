@@ -40,16 +40,10 @@ func GetSessions() {
 			obj.PlayState.PlayMethod != "" {
 			var userName string
 			var name string
-			var state string
 			var bitrate string
 			var substream string
 			var playMethod string
 			var deviceName string
-			if obj.PlayState.IsPaused {
-				state = "paused"
-			} else {
-				state = "in progress"
-			}
 			if err == nil {
 				bitrateFloat := float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
 				bitrate = strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
@@ -67,7 +61,7 @@ func GetSessions() {
 				substream = "None"
 			}
 			count++
-			updateSessionMetrics(userName, state, name, playMethod, substream, deviceName, bitrate, count)
+			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
 		} else {
 			continue
 		}
@@ -80,10 +74,9 @@ func GetSessions() {
 
 }
 
-func updateSessionMetrics(username, state, name, playMethod, substream, deviceName string, bitrate string, count int) {
+func updateSessionMetrics(username, name, playMethod, substream, deviceName string, bitrate string, count int) {
 	sessionLabels := prometheus.Labels{
 		"UserName":   username,
-		"State":      state,
 		"Name":       name,
 		"Bitrate":    bitrate,
 		"PlayMethod": playMethod,

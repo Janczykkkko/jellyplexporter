@@ -18,7 +18,7 @@ var (
 			Name: "jellyfin_session_info",
 			Help: "Information about Jellyfin sessions",
 		},
-		[]string{"UserName", "State", "Name", "Bitrate", "PlayMethod", "Substream", "DeviceName"},
+		[]string{"UserName", "Name", "Bitrate", "PlayMethod", "Substream", "DeviceName"},
 	)
 )
 
