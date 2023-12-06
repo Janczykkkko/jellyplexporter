@@ -32,9 +32,9 @@ func GetSessions() {
 	if err != nil {
 		fmt.Println("Error fetching sessions: " + err.Error())
 	}
-	count = 0
 	prometheus.Unregister(sessionsMetric)
 	prometheus.MustRegister(sessionsMetric)
+	count = 0
 	for _, obj := range JellyJSON {
 		if len(obj.NowPlayingQueueFullItems) > 0 &&
 			obj.PlayState.PlayMethod != "" {
@@ -60,7 +60,7 @@ func GetSessions() {
 			} else {
 				substream = "None"
 			}
-			count++
+			count = 1
 			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
 		} else {
 			continue
