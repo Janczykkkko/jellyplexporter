@@ -7,7 +7,6 @@ on:
 
 jobs:
   build-and-publish:
-    if: contains(github.event.head_commit.message, 'v[0-9]+\.[0-9]+\.[0-9]+')
     
     runs-on: ubuntu-latest
 
