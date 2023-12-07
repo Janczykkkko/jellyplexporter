@@ -22,8 +22,93 @@ type JellySession struct {
 	LastPlaybackCheckIn time.Time `json:"LastPlaybackCheckIn"`
 	DeviceName          string    `json:"DeviceName"`
 	NowPlayingItem      struct {
-		Name string `json:"Name"`
-	}
+		Name          string    `json:"Name"`
+		OriginalTitle string    `json:"OriginalTitle"`
+		ServerID      string    `json:"ServerId"`
+		ID            string    `json:"Id"`
+		DateCreated   time.Time `json:"DateCreated"`
+		HasSubtitles  bool      `json:"HasSubtitles"`
+		Container     string    `json:"Container"`
+		PremiereDate  time.Time `json:"PremiereDate"`
+		ExternalUrls  []struct {
+			Name string `json:"Name"`
+			URL  string `json:"Url"`
+		} `json:"ExternalUrls"`
+		Path                     string   `json:"Path"`
+		EnableMediaSourceDisplay bool     `json:"EnableMediaSourceDisplay"`
+		ChannelID                any      `json:"ChannelId"`
+		Overview                 string   `json:"Overview"`
+		Taglines                 []string `json:"Taglines"`
+		Genres                   []string `json:"Genres"`
+		CommunityRating          float64  `json:"CommunityRating"`
+		RunTimeTicks             int64    `json:"RunTimeTicks"`
+		ProductionYear           int      `json:"ProductionYear"`
+		ProviderIds              struct {
+			Imdb string `json:"Imdb"`
+			Tmdb string `json:"Tmdb"`
+		} `json:"ProviderIds"`
+		IsHD     bool   `json:"IsHD"`
+		IsFolder bool   `json:"IsFolder"`
+		ParentID string `json:"ParentId"`
+		Type     string `json:"Type"`
+		Studios  []struct {
+			Name string `json:"Name"`
+			ID   string `json:"Id"`
+		} `json:"Studios"`
+		GenreItems []struct {
+			Name string `json:"Name"`
+			ID   string `json:"Id"`
+		} `json:"GenreItems"`
+		LocalTrailerCount       int     `json:"LocalTrailerCount"`
+		SpecialFeatureCount     int     `json:"SpecialFeatureCount"`
+		PrimaryImageAspectRatio float64 `json:"PrimaryImageAspectRatio"`
+		MediaStreams            []struct {
+			Codec                  string  `json:"Codec"`
+			Language               string  `json:"Language"`
+			TimeBase               string  `json:"TimeBase"`
+			LocalizedUndefined     string  `json:"LocalizedUndefined,omitempty"`
+			LocalizedDefault       string  `json:"LocalizedDefault,omitempty"`
+			LocalizedForced        string  `json:"LocalizedForced,omitempty"`
+			LocalizedExternal      string  `json:"LocalizedExternal,omitempty"`
+			DisplayTitle           string  `json:"DisplayTitle"`
+			IsInterlaced           bool    `json:"IsInterlaced"`
+			IsDefault              bool    `json:"IsDefault"`
+			IsForced               bool    `json:"IsForced"`
+			Type                   string  `json:"Type"`
+			Index                  int     `json:"Index"`
+			IsExternal             bool    `json:"IsExternal"`
+			IsTextSubtitleStream   bool    `json:"IsTextSubtitleStream"`
+			SupportsExternalStream bool    `json:"SupportsExternalStream"`
+			Path                   string  `json:"Path,omitempty"`
+			Level                  int     `json:"Level"`
+			CodecTag               string  `json:"CodecTag,omitempty"`
+			ColorSpace             string  `json:"ColorSpace,omitempty"`
+			ColorTransfer          string  `json:"ColorTransfer,omitempty"`
+			ColorPrimaries         string  `json:"ColorPrimaries,omitempty"`
+			VideoRange             string  `json:"VideoRange,omitempty"`
+			VideoRangeType         string  `json:"VideoRangeType,omitempty"`
+			NalLengthSize          string  `json:"NalLengthSize,omitempty"`
+			IsAVC                  bool    `json:"IsAVC,omitempty"`
+			BitRate                int     `json:"BitRate,omitempty"`
+			BitDepth               int     `json:"BitDepth,omitempty"`
+			RefFrames              int     `json:"RefFrames,omitempty"`
+			Height                 int     `json:"Height,omitempty"`
+			Width                  int     `json:"Width,omitempty"`
+			AverageFrameRate       float64 `json:"AverageFrameRate,omitempty"`
+			RealFrameRate          float64 `json:"RealFrameRate,omitempty"`
+			Profile                string  `json:"Profile,omitempty"`
+			AspectRatio            string  `json:"AspectRatio,omitempty"`
+			PixelFormat            string  `json:"PixelFormat,omitempty"`
+			ChannelLayout          string  `json:"ChannelLayout,omitempty"`
+			Channels               int     `json:"Channels,omitempty"`
+			SampleRate             int     `json:"SampleRate,omitempty"`
+		} `json:"MediaStreams"`
+		VideoType    string `json:"VideoType"`
+		LocationType string `json:"LocationType"`
+		MediaType    string `json:"MediaType"`
+		Width        int    `json:"Width"`
+		Height       int    `json:"Height"`
+	} `json:"NowPlayingItem"`
 	FullNowPlayingItem struct {
 		Size          int64     `json:"Size"`
 		Container     string    `json:"Container"`

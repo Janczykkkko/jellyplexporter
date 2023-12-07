@@ -58,25 +58,34 @@ func GetSessions() {
 			}
 			count = 1
 			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
-		} else if len(obj.FullNowPlayingItem.Container) > 0 && //mobile not showing fix
+		} else if len(obj.FullNowPlayingItem.Container) > 0 &&
 			obj.PlayState.PlayMethod != "" &&
 			!obj.PlayState.IsPaused {
 			var userName string
 			var name string
-			var bitrate string = ""
 			var substream string = ""
 			var playMethod string
 			var deviceName string
+			var bitrateData int
 			name = obj.NowPlayingItem.Name
 			playMethod = obj.PlayState.PlayMethod
 			userName = obj.UserName
 			deviceName = obj.DeviceName
+			for _, stream := range obj.NowPlayingItem.MediaStreams {
+				if stream.Type == "Video" {
+					bitrateData = stream.BitRate
+					break
+				}
+			}
+			bitrateFloat := float64(bitrateData) / 1000000.0
+			bitrate := strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
 			count = 1
 			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
 		} else {
 			continue
 		}
 	}
+
 	if count == 0 {
 		// No sessions found, reset metric to zero
 		prometheus.Unregister(sessionsMetric)
