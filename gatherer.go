@@ -32,24 +32,15 @@ func GetSessions() {
 	if err != nil {
 		fmt.Println("Error fetching sessions: " + err.Error())
 	}
-	prometheus.Unregister(sessionsMetric)
-	prometheus.MustRegister(sessionsMetric)
+	sessionsMetric.Reset()
 	count = 0
 	for _, obj := range JellyJSON {
 		if len(obj.NowPlayingQueueFullItems) > 0 &&
 			obj.PlayState.PlayMethod != "" {
-			var userName string
-			var name string
 			var bitrate string
 			var substream string
-			var playMethod string
-			var deviceName string
 			bitrateFloat := float64(obj.NowPlayingQueueFullItems[0].MediaSources[0].Bitrate) / 1000000.0
 			bitrate = strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
-			name = obj.NowPlayingQueueFullItems[0].MediaSources[0].Name
-			userName = obj.UserName
-			playMethod = obj.PlayState.PlayMethod
-			deviceName = obj.DeviceName
 			SubtitleStreamIndex := obj.PlayState.SubtitleStreamIndex
 			if SubtitleStreamIndex >= 0 && SubtitleStreamIndex < len(obj.NowPlayingQueueFullItems[0].MediaStreams) {
 				substream = obj.NowPlayingQueueFullItems[0].MediaStreams[obj.PlayState.SubtitleStreamIndex].DisplayTitle
@@ -57,40 +48,27 @@ func GetSessions() {
 				substream = "None"
 			}
 			count = 1
-			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
+			updateSessionMetrics(obj.UserName, obj.NowPlayingQueueFullItems[0].MediaSources[0].Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
 		} else if len(obj.FullNowPlayingItem.Container) > 0 &&
-			obj.PlayState.PlayMethod != "" &&
+			obj.NowPlayingItem.Name != "" &&
 			!obj.PlayState.IsPaused {
-			var userName string
-			var name string
 			var substream string = ""
-			var playMethod string
-			var deviceName string
 			var bitrateData int
-			name = obj.NowPlayingItem.Name
-			playMethod = obj.PlayState.PlayMethod
-			userName = obj.UserName
-			deviceName = obj.DeviceName
 			for _, stream := range obj.NowPlayingItem.MediaStreams {
 				if stream.Type == "Video" {
 					bitrateData = stream.BitRate
-					break
+				} else {
+					bitrateData = 0
 				}
 			}
 			bitrateFloat := float64(bitrateData) / 1000000.0
 			bitrate := strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
 			count = 1
-			updateSessionMetrics(userName, name, playMethod, substream, deviceName, bitrate, count)
+			updateSessionMetrics(obj.UserName, obj.NowPlayingItem.Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
 		} else {
 			continue
 		}
 	}
-
-	if count == 0 {
-		// No sessions found, reset metric to zero
-		prometheus.Unregister(sessionsMetric)
-	}
-
 }
 
 func updateSessionMetrics(username, name, playMethod, substream, deviceName string, bitrate string, count int) {
