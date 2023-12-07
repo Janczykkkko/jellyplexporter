@@ -36,7 +36,7 @@ func main() {
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	}()
 	prometheus.MustRegister(sessionsMetric)
-	interval := 5 * time.Second
+	interval := 30 * time.Second
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
 	GetSessions()
