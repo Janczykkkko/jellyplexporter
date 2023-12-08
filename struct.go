@@ -635,7 +635,7 @@ type JellySession struct {
 		ProgramID              string    `json:"ProgramId"`
 		ChannelPrimaryImageTag string    `json:"ChannelPrimaryImageTag"`
 		StartDate              time.Time `json:"StartDate"`
-		CompletionPercentage   int       `json:"CompletionPercentage"`
+		CompletionPercentage   float64   `json:"CompletionPercentage"`
 		IsRepeat               bool      `json:"IsRepeat"`
 		EpisodeTitle           string    `json:"EpisodeTitle"`
 		ChannelType            string    `json:"ChannelType"`
@@ -942,7 +942,7 @@ type JellySession struct {
 		AirTime                 string   `json:"AirTime"`
 		AirDays                 []string `json:"AirDays"`
 		Tags                    []string `json:"Tags"`
-		PrimaryImageAspectRatio int      `json:"PrimaryImageAspectRatio"`
+		PrimaryImageAspectRatio float64  `json:"PrimaryImageAspectRatio"`
 		Artists                 []string `json:"Artists"`
 		ArtistItems             []struct {
 			Name string `json:"Name"`
@@ -1132,7 +1132,7 @@ type JellySession struct {
 		ProgramID              string    `json:"ProgramId"`
 		ChannelPrimaryImageTag string    `json:"ChannelPrimaryImageTag"`
 		StartDate              time.Time `json:"StartDate"`
-		CompletionPercentage   int       `json:"CompletionPercentage"`
+		CompletionPercentage   float64   `json:"CompletionPercentage"`
 		IsRepeat               bool      `json:"IsRepeat"`
 		EpisodeTitle           string    `json:"EpisodeTitle"`
 		ChannelType            string    `json:"ChannelType"`
@@ -1158,7 +1158,7 @@ type JellySession struct {
 		IsAudioDirect            bool     `json:"IsAudioDirect"`
 		Bitrate                  int      `json:"Bitrate"`
 		Framerate                int      `json:"Framerate"`
-		CompletionPercentage     int      `json:"CompletionPercentage"`
+		CompletionPercentage     float64  `json:"CompletionPercentage"`
 		Width                    int      `json:"Width"`
 		Height                   int      `json:"Height"`
 		AudioChannels            int      `json:"AudioChannels"`
@@ -1326,7 +1326,7 @@ type JellySession struct {
 		Overview                 string   `json:"Overview"`
 		Taglines                 []string `json:"Taglines"`
 		Genres                   []string `json:"Genres"`
-		CommunityRating          int      `json:"CommunityRating"`
+		CommunityRating          float64  `json:"CommunityRating"`
 		CumulativeRunTimeTicks   int      `json:"CumulativeRunTimeTicks"`
 		RunTimeTicks             int      `json:"RunTimeTicks"`
 		PlayAccess               string   `json:"PlayAccess"`
@@ -1447,7 +1447,7 @@ type JellySession struct {
 		AirTime                 string   `json:"AirTime"`
 		AirDays                 []string `json:"AirDays"`
 		Tags                    []string `json:"Tags"`
-		PrimaryImageAspectRatio int      `json:"PrimaryImageAspectRatio"`
+		PrimaryImageAspectRatio float64  `json:"PrimaryImageAspectRatio"`
 		Artists                 []string `json:"Artists"`
 		ArtistItems             []struct {
 			Name string `json:"Name"`
@@ -1637,7 +1637,7 @@ type JellySession struct {
 		ProgramID              string    `json:"ProgramId"`
 		ChannelPrimaryImageTag string    `json:"ChannelPrimaryImageTag"`
 		StartDate              time.Time `json:"StartDate"`
-		CompletionPercentage   int       `json:"CompletionPercentage"`
+		CompletionPercentage   float64   `json:"CompletionPercentage"`
 		IsRepeat               bool      `json:"IsRepeat"`
 		EpisodeTitle           string    `json:"EpisodeTitle"`
 		ChannelType            string    `json:"ChannelType"`
