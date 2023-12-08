@@ -53,12 +53,12 @@ func GetSessions() {
 			obj.NowPlayingItem.Name != "" &&
 			!obj.PlayState.IsPaused {
 			var substream string = ""
-			var bitrateData int
+			var bitrateData int = 0
 			for _, stream := range obj.NowPlayingItem.MediaStreams {
 				if stream.Type == "Video" {
 					bitrateData = stream.BitRate
 				} else {
-					bitrateData = 0
+					continue
 				}
 			}
 			bitrateFloat := float64(bitrateData) / 1000000.0
@@ -71,7 +71,7 @@ func GetSessions() {
 	}
 }
 
-func updateSessionMetrics(username, name, playMethod, substream, deviceName string, bitrate string, count int) {
+func updateSessionMetrics(username, name, playMethod, substream, deviceName, bitrate string, count int) {
 	sessionLabels := prometheus.Labels{
 		"UserName":   username,
 		"Name":       name,
