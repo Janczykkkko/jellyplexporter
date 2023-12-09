@@ -52,7 +52,7 @@ func GetSessions() {
 		} else if len(obj.FullNowPlayingItem.Container) > 0 &&
 			obj.NowPlayingItem.Name != "" &&
 			!obj.PlayState.IsPaused {
-			var substream string = ""
+			var substream string
 			var bitrateData int = 0
 			for _, stream := range obj.NowPlayingItem.MediaStreams {
 				if stream.Type == "Video" {
@@ -63,6 +63,12 @@ func GetSessions() {
 			}
 			bitrateFloat := float64(bitrateData) / 1000000.0
 			bitrate := strconv.FormatFloat(bitrateFloat, 'f', -1, 64)
+			SubtitleStreamIndex := obj.PlayState.SubtitleStreamIndex
+			if SubtitleStreamIndex >= 0 && SubtitleStreamIndex < len(obj.NowPlayingItem.MediaStreams) {
+				substream = obj.NowPlayingItem.MediaStreams[obj.PlayState.SubtitleStreamIndex].DisplayTitle
+			} else {
+				substream = "None"
+			}
 			count = 1
 			updateSessionMetrics(obj.UserName, obj.NowPlayingItem.Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
 		} else {
