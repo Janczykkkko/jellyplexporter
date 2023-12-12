@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	jellyfinAddress string
-	jellyfinApiKey  string
-	sessionsMetric  = prometheus.NewGaugeVec(
+	jellyfinAddress        string
+	jellyfinApiKey         string
+	JellyfinSessionsMetric = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
 			Name: "jellyfin_session_info",
 			Help: "Information about Jellyfin sessions",
@@ -35,15 +35,15 @@ func main() {
 	go func() {
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	}()
-	prometheus.MustRegister(sessionsMetric)
+	prometheus.MustRegister(JellyfinSessionsMetric)
 	interval := 30 * time.Second
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
-	GetSessions()
+	GetJellyfinSessions()
 	for {
 		select {
 		case <-ticker.C:
-			GetSessions()
+			GetJellyfinSessions()
 		}
 	}
 }

@@ -12,7 +12,7 @@ import (
 )
 
 // GetSessions fetches sessions from Jellyfin
-func GetSessions() {
+func GetJellyfinSessions() {
 	var (
 		JellyJSON []JellySession
 		count     int
@@ -32,7 +32,7 @@ func GetSessions() {
 	if err != nil {
 		fmt.Println("Error fetching sessions: " + err.Error())
 	}
-	sessionsMetric.Reset()
+	JellyfinSessionsMetric.Reset()
 	count = 0
 	for _, obj := range JellyJSON {
 		if len(obj.NowPlayingQueueFullItems) > 0 &&
@@ -48,7 +48,7 @@ func GetSessions() {
 				substream = "None"
 			}
 			count = 1
-			updateSessionMetrics(obj.UserName, obj.NowPlayingQueueFullItems[0].MediaSources[0].Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
+			updateJellyfinSessionMetrics(obj.UserName, obj.NowPlayingQueueFullItems[0].MediaSources[0].Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
 		} else if len(obj.FullNowPlayingItem.Container) > 0 &&
 			obj.NowPlayingItem.Name != "" &&
 			!obj.PlayState.IsPaused {
@@ -70,14 +70,14 @@ func GetSessions() {
 				substream = "None"
 			}
 			count = 1
-			updateSessionMetrics(obj.UserName, obj.NowPlayingItem.Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
+			updateJellyfinSessionMetrics(obj.UserName, obj.NowPlayingItem.Name, obj.PlayState.PlayMethod, substream, obj.DeviceName, bitrate, count)
 		} else {
 			continue
 		}
 	}
 }
 
-func updateSessionMetrics(username, name, playMethod, substream, deviceName, bitrate string, count int) {
+func updateJellyfinSessionMetrics(username, name, playMethod, substream, deviceName, bitrate string, count int) {
 	sessionLabels := prometheus.Labels{
 		"UserName":   username,
 		"Name":       name,
@@ -88,5 +88,5 @@ func updateSessionMetrics(username, name, playMethod, substream, deviceName, bit
 	}
 
 	// Set labels and update the gauge for the specific session
-	sessionsMetric.With(sessionLabels).Set(float64(count))
+	JellyfinSessionsMetric.With(sessionLabels).Set(float64(count))
 }
