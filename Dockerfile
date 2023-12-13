@@ -9,8 +9,8 @@ RUN go build .
 
 FROM scratch 
 
-COPY --from=0 /app/jellyexporter .
+COPY --from=0 /app/jellyplexporter .
 
 EXPOSE 8080
 
-CMD ["/jellyexporter"]
+CMD ["/jellyplexporter"]
