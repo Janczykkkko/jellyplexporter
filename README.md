@@ -8,3 +8,5 @@ Made to be deployed as a container, requires at least one of two:
 For Plex: PLEX_ADDRESS and PLEX_APIKEY  
 For Jellyfin: JELLYFIN_ADDRESS and JELLYFIN_APIKEY  
 *address in form >> http(s)://ip:port <<  
+
+Images available here: https://hub.docker.com/repository/docker/januszadlo/jellyplexporter/general
