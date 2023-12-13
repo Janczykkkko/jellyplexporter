@@ -1,4 +1,4 @@
-module jellyexporter
+module jellyplexporter
 
 go 1.21.4
 

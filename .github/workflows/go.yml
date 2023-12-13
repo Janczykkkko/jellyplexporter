@@ -30,4 +30,4 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker buildx build --push --tag januszadlo/jellyfin-exporter:${{ steps.extract_version.outputs.VERSION }} .
+          docker buildx build --push --tag januszadlo/jellyplexporter:${{ steps.extract_version.outputs.VERSION }} .
