@@ -1,10 +1,10 @@
-# jellyfin-exporter
-Shitty jellyfin exporter written in go. 
-Displays playback sessions count (couldn't find it anywhere on github). 
-Two env vars needed: 
-JELLYFIN_ADDRESS as in http://ip-or-hostname:port 
-JELLYFIN_APIKEY api key lol :) 
-Serves metrics at :8080/metrics
-Confirmed working with jellyfin:10.8.10 inside a linuxserver image.
-https://hub.docker.com/repository/docker/januszadlo/jellyfin-exporter/general
-Returns metric jellyfin_jellyfin_session_info{Bitrate="", DeviceName="", Name="", PlayMethod="Transcode", State="", Substream="", UserName=""} for each active stream.
+# jellyplexporter
+
+Prometheus exporter for Plex and Jellyfin.  
+Main use case is visualising streams on a graph in grafana with the stream info as labels:
+>{USER(DEVICE): The Aviator (DirectPlay) subs: English - SUBRIP - External bitrate: 2.90243 Mbps} 1
+
+Made to be deployed as a container, requires at least one of two:  
+For Plex: PLEX_ADDRESS and PLEX_APIKEY  
+For Jellyfin: JELLYFIN_ADDRESS and JELLYFIN_APIKEY  
+*address in form >> http(s)://ip:port <<  
