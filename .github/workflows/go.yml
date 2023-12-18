@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-publish:
-    if: "!contains(github.event.head_commit.message, 'nopush')"
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +26,15 @@ jobs:
 
       - name: Extract version from commit message
         id: extract_version
-        run: echo ::set-output name=VERSION::$(echo ${{ steps.commit_message.outputs.MESSAGE }} | grep -o -E 'v[0-9]+\.[0-9]+\.[0-9]+')
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%B -n 1 $GITHUB_SHA)
+          VERSION_REGEX="v[0-9]+\.[0-9]+\.[0-9]+"
+          if [[ $COMMIT_MESSAGE =~ $VERSION_REGEX ]]; then
+            echo "::set-output name=VERSION::${BASH_REMATCH[0]}"
+          else
+            echo "No version found in commit message. Skipping build and push steps."
+            exit 0
+          fi
 
       - name: Build and tag Docker image
         run: |

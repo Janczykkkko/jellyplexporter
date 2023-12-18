@@ -53,7 +53,7 @@ func GetPlexMetrics(plexAddress, plexApiKey string) (metrics []PlexSessionMetric
 			Bitrate:    GetPlexStreamBitrate(session),
 			PlayMethod: session.Media.Part.Decision,
 			SubStream:  GetPlexSubStream(session),
-			DeviceName: session.Player.Device,
+			DeviceName: GetPlexDevice(session),
 			Value:      1,
 		}
 		metrics = append(metrics, metric)
@@ -80,4 +80,11 @@ func GetPlexSubStream(session PlexVideoSession) (substream string) {
 		}
 	}
 	return substream
+}
+
+func GetPlexDevice(session PlexVideoSession) string {
+	if session.Player.Device != "" {
+		return session.Player.Device
+	}
+	return session.Player.Title
 }
