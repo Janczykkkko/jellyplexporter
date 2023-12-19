@@ -2,7 +2,10 @@ module jellyplexporter
 
 go 1.21.4
 
-require github.com/prometheus/client_golang v1.17.0
+require (
+	github.com/Janczykkkko/jellyplexgatherer v1.0.0
+	github.com/prometheus/client_golang v1.17.0
+)
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
