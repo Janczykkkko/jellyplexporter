@@ -1,12 +1,12 @@
 package main
 
 import (
-	"jellyplexporter/gatherers"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
+	gatherers "github.com/Janczykkkko/jellyplexgatherer"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -52,7 +52,7 @@ func main() {
 		prometheus.MustRegister(PlexSessionMetric)
 	}
 
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
 	for range ticker.C {
@@ -63,7 +63,7 @@ func main() {
 func updateMetrics(enableJellyfin, enablePlex bool) {
 	if enableJellyfin {
 		JellyfinSessionsMetric.Reset() // reset to remove any bugged metrics
-		metrics, err := gatherers.GetJellyMetrics(jellyfinAddress, jellyfinApiKey)
+		metrics, err := gatherers.GetJellySessions(jellyfinAddress, jellyfinApiKey)
 		if err != nil {
 			log.Printf("Error getting Jellyfin session info: %s", err)
 		}
@@ -81,7 +81,7 @@ func updateMetrics(enableJellyfin, enablePlex bool) {
 	}
 	if enablePlex {
 		PlexSessionMetric.Reset() // reset to remove any bugged metrics
-		metrics, err := gatherers.GetPlexMetrics(plexAddress, plexApiKey)
+		metrics, err := gatherers.GetPlexSessions(plexAddress, plexApiKey)
 		if err != nil {
 			log.Printf("Error getting Plex session info: %s", err)
 		}
