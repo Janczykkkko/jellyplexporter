@@ -52,7 +52,7 @@ func main() {
 		prometheus.MustRegister(PlexSessionMetric)
 	}
 
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
 
 	for range ticker.C {
