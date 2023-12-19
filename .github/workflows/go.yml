@@ -37,5 +37,6 @@ jobs:
           fi
 
       - name: Build and tag Docker image
+        if: steps.extract_version.outputs.VERSION != ''
         run: |
           docker buildx build --push --tag januszadlo/jellyplexporter:${{ steps.extract_version.outputs.VERSION }} .
