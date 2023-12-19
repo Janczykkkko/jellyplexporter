@@ -1,0 +1,113 @@
+{
+    "datasource": {
+      "type": "prometheus",
+      "uid": "b76119ea-d724-4a54-83c7-ebff009ea4e1"
+    },
+    "fieldConfig": {
+      "defaults": {
+        "custom": {
+          "drawStyle": "line",
+          "lineInterpolation": "linear",
+          "barAlignment": 0,
+          "lineWidth": 1,
+          "fillOpacity": 3,
+          "gradientMode": "none",
+          "spanNulls": false,
+          "insertNulls": false,
+          "showPoints": "never",
+          "pointSize": 5,
+          "stacking": {
+            "mode": "normal",
+            "group": "A"
+          },
+          "axisPlacement": "auto",
+          "axisLabel": "",
+          "axisColorMode": "text",
+          "scaleDistribution": {
+            "type": "linear"
+          },
+          "axisCenteredZero": false,
+          "hideFrom": {
+            "tooltip": false,
+            "viz": false,
+            "legend": false
+          },
+          "thresholdsStyle": {
+            "mode": "off"
+          },
+          "lineStyle": {
+            "dash": [
+              10,
+              10
+            ],
+            "fill": "dash"
+          }
+        },
+        "color": {
+          "mode": "palette-classic"
+        },
+        "mappings": [],
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            }
+          ]
+        },
+        "decimals": 0,
+        "unit": "none"
+      },
+      "overrides": []
+    },
+    "gridPos": {
+      "h": 8,
+      "w": 24,
+      "x": 0,
+      "y": 10
+    },
+    "id": 336,
+    "options": {
+      "tooltip": {
+        "mode": "single",
+        "sort": "none"
+      },
+      "legend": {
+        "showLegend": false,
+        "displayMode": "list",
+        "placement": "bottom",
+        "calcs": []
+      }
+    },
+    "targets": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "b76119ea-d724-4a54-83c7-ebff009ea4e1"
+        },
+        "editorMode": "code",
+        "expr": "jellyfin_session_info{UserName!=\"\"}",
+        "hide": false,
+        "instant": false,
+        "legendFormat": "{{__name__}} / {{UserName}}({{DeviceName}}): {{Name}} ({{PlayMethod}}) subs: {{Substream}} bitrate: {{Bitrate}} Mbps",
+        "range": true,
+        "refId": "B"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "b76119ea-d724-4a54-83c7-ebff009ea4e1"
+        },
+        "editorMode": "code",
+        "expr": "plex_session_info",
+        "hide": false,
+        "instant": false,
+        "legendFormat": "{{__name__}} / {{UserName}}({{DeviceName}}): {{Name}} ({{PlayMethod}}) subs: {{Substream}} bitrate: {{Bitrate}} Mbps",
+        "range": true,
+        "refId": "A"
+      }
+    ],
+    "title": "Players Activity",
+    "type": "timeseries"
+  }
