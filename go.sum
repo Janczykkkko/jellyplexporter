@@ -1,5 +1,5 @@
-github.com/Janczykkkko/jellyplexgatherer v1.0.4-tests h1:StGKnDkleyQY4heI6BVSfIUtOQxDpBNySJt4c+hwKok=
-github.com/Janczykkkko/jellyplexgatherer v1.0.4-tests/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
+github.com/Janczykkkko/jellyplexgatherer v1.0.4 h1:kwmzLYXshy+5x0h1nQmkFKvwIe8jyCzSn6C0je9+2wk=
+github.com/Janczykkkko/jellyplexgatherer v1.0.4/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=

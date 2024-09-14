@@ -3,7 +3,7 @@ module jellyplexporter
 go 1.21.4
 
 require (
-	github.com/Janczykkkko/jellyplexgatherer v1.0.4-tests
+	github.com/Janczykkkko/jellyplexgatherer v1.0.4
 	github.com/prometheus/client_golang v1.17.0
 )
 
