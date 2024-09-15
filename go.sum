@@ -1,5 +1,10 @@
-github.com/Janczykkkko/jellyplexgatherer v1.0.5 h1:YIIU1ON2KoWZMUhcLTtQ/x8GA+4wYAKyFzft4ZTY4RI=
-github.com/Janczykkkko/jellyplexgatherer v1.0.5/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-dev h1:E3srWeZ0jVu2pOaXeCPz2xL0yYGtpQN8k2Nig3rz5ps=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-dev/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-prod h1:tHGRkTgx1MRfWSM47lRz3grFUpJDfVATPqz7rGzDtdc=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-prod/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-test h1:Vqfqgb2GX46XXkRabOfquogsF7Yv4LAUHeXBkEWmpSY=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0-test/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
+github.com/Janczykkkko/jellyplexgatherer v1.1.0/go.mod h1:3j7mxkOpT396BG8NbMrPWrNUcu9/JLInKmCcDZLkVY4=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=

@@ -30,6 +30,13 @@ var (
 		},
 		[]string{"UserName", "Name", "Bitrate", "PlayMethod", "Substream", "DeviceName"},
 	)
+	JellyOnlineMetric = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "jelly_online_info",
+			Help: "Information about online Jelly users",
+		},
+		[]string{"UserName", "Device"},
+	)
 )
 
 func main() {
@@ -47,6 +54,7 @@ func main() {
 
 	if enableJellyfin {
 		prometheus.MustRegister(JellyfinSessionsMetric)
+		prometheus.MustRegister(JellyOnlineMetric)
 	}
 	if enablePlex {
 		prometheus.MustRegister(PlexSessionMetric)
@@ -63,11 +71,11 @@ func main() {
 func updateMetrics(enableJellyfin, enablePlex bool) {
 	if enableJellyfin {
 		JellyfinSessionsMetric.Reset() // reset to remove any bugged metrics
-		metrics, err := gatherers.GetJellySessions(jellyfinAddress, jellyfinApiKey)
+		sessionMetrics, err := gatherers.GetJellySessions(jellyfinAddress, jellyfinApiKey)
 		if err != nil {
 			log.Printf("Error getting Jellyfin session info: %s", err)
 		}
-		for _, metric := range metrics {
+		for _, metric := range sessionMetrics {
 			sessionLabels := prometheus.Labels{
 				"UserName":   metric.UserName,
 				"Name":       metric.Name,
@@ -77,6 +85,19 @@ func updateMetrics(enableJellyfin, enablePlex bool) {
 				"DeviceName": metric.DeviceName,
 			}
 			JellyfinSessionsMetric.With(sessionLabels).Set(float64(1))
+		}
+
+		JellyOnlineMetric.Reset()
+		onlineMetrics, err := gatherers.GetOnlineUsers(jellyfinAddress, jellyfinApiKey, 100, 120)
+		if err != nil {
+			log.Printf("Error getting Jellyfin activity info: %s", err)
+		}
+		for _, metric := range onlineMetrics {
+			activityLabels := prometheus.Labels{
+				"UserName": metric.UserName,
+				"Device":   metric.Device,
+			}
+			JellyOnlineMetric.With(activityLabels).Set(float64(1))
 		}
 	}
 	if enablePlex {
